@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface IMovieService {
 
-    void create(Movie movie);
+    Mono<Movie> createMovie(Movie movie);
 
     Mono<Movie> findById(String id);
 

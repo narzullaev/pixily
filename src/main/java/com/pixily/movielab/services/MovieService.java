@@ -14,8 +14,8 @@ public class MovieService implements IMovieService {
     private MovieRepository postRepository;
 
     @Override
-    public void create(Movie movie) {
-        postRepository.save(movie).subscribe();
+    public Mono<Movie> createMovie(Movie movie) {
+        return postRepository.save(movie);
     }
 
     @Override

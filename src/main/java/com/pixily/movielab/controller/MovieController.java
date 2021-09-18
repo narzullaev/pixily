@@ -16,21 +16,21 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @PostMapping("/create")
-    @ResponseStatus(HttpStatus.OK)
-    public void create(@RequestBody Movie movie) {
-        movieService.create(movie);
+    @PostMapping(value = "/create", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Movie> createMovie(@RequestBody Movie movie) {
+        return movieService.createMovie(movie);
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Movie>> findById(@PathVariable(value = "id") String movie_id) {
+    public Mono<ResponseEntity<Movie>> findById(@PathVariable("id") String movie_id) {
         return movieService.findById(movie_id)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/title/{title}")
-    public Flux<Movie> findByTitle(@PathVariable(value = "title") String title) {
+    public Flux<Movie> findByTitle(@PathVariable("title") String title) {
         return movieService.findByTitle(title);
     }
 
