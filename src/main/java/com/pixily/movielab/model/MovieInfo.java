@@ -2,7 +2,6 @@ package com.pixily.movielab.model;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.List;
 
 @Document
 @Getter

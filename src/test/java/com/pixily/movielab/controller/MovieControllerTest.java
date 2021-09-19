@@ -5,15 +5,22 @@ import com.pixily.movielab.model.MovieInfo;
 import com.pixily.movielab.services.MovieService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
@@ -23,10 +30,18 @@ import static org.mockito.Mockito.when;
 public class MovieControllerTest {
 
     @Autowired
+    private MovieController movieController;
+
+    @Autowired
     private WebTestClient webTestClient;
 
     @MockBean
     private MovieService service;
+
+    @Test
+    public void contextLoads() throws Exception {
+        assertThat(movieController).isNotNull();
+    }
 
     @Test
     public void addMovieTest() {
@@ -59,6 +74,27 @@ public class MovieControllerTest {
                 .expectNext(new Movie(2233, "Batman", getMovieInfo()))
                 .expectNext(new Movie(2244, "Batman", getMovieInfo()))
                 .verifyComplete();
+    }
+
+    @Test
+    public void getMovieByTitleTest(){
+        Movie movie = new Movie(2233, "Batman", getMovieInfo());
+        List<Movie> list = new ArrayList<>();
+        list.add(movie);
+
+        Flux<Movie> movieFlux  = Flux.fromIterable(list);
+
+        Mockito
+                .when(service.findByTitle("Batman"))
+                .thenReturn(movieFlux);
+
+        webTestClient.get()
+                .uri("/movies/movie/{title}", "Batman")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Movie.class);
+
+        Mockito.verify(service, Mockito.times(1)).findByTitle("Batman");
     }
 
 
