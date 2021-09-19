@@ -1,14 +1,14 @@
 package com.pixily.movielab;
-
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
 class MovieLabApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void testStartup() throws Exception {
+		MovieLabApplication.main(new String[]{});
 	}
 
 }
