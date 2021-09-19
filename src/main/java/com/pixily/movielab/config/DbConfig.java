@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 
 @Configuration
 @EnableReactiveMongoRepositories(basePackages = "com.pixily.movielab.repositories")
-public class DBConfig extends AbstractReactiveMongoConfiguration {
+public class DbConfig extends AbstractReactiveMongoConfiguration {
 
     @Value("${port}")
     String port;

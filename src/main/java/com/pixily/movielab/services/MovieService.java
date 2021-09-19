@@ -2,7 +2,6 @@ package com.pixily.movielab.services;
 
 import com.pixily.movielab.repositories.MovieRepository;
 import com.pixily.movielab.model.Movie;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -10,16 +9,19 @@ import reactor.core.publisher.Mono;
 @Service
 public class MovieService implements IMovieService {
 
-    @Autowired
-    private MovieRepository postRepository;
+    private final MovieRepository postRepository;
+
+    public MovieService(MovieRepository postRepository) {
+        this.postRepository = postRepository;
+    }
 
     @Override
-    public Mono<Movie> createMovie(Movie movie) {
+    public Mono<Movie> addMovie(Movie movie) {
         return postRepository.save(movie);
     }
 
     @Override
-    public Mono<Movie> findById(final String id) {
+    public Mono<Movie> findById(Integer id) {
         return postRepository.findById(id);
     }
 
@@ -29,17 +31,19 @@ public class MovieService implements IMovieService {
     }
 
     @Override
-    public Flux<Movie> findAll() {
+    public Flux<Movie> findAllMovies() {
         return postRepository.findAll();
     }
 
     @Override
-    public Mono<Movie> update(Movie movie) {
+    public Mono<Movie> updateMovie(Movie movie) {
         return postRepository.save(movie);
     }
 
     @Override
-    public Mono<Void> delete(String id) {
+    public Mono<Void> deleteMovie(Integer id) {
         return postRepository.deleteById(id);
     }
+
+
 }

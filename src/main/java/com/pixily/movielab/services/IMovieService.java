@@ -6,15 +6,15 @@ import reactor.core.publisher.Mono;
 
 public interface IMovieService {
 
-    Mono<Movie> createMovie(Movie movie);
+    Mono<Movie> addMovie(Movie movie);
 
-    Mono<Movie> findById(String id);
+    Mono<Movie> findById(Integer id);
 
     Flux<Movie> findByTitle(String title);
 
-    Flux<Movie> findAll();
+    Flux<Movie> findAllMovies();
 
-    Mono<Movie> update(Movie movie);
+    Mono<Movie> updateMovie(Movie movie);
 
-    Mono<Void> delete(String id);
+    Mono<Void> deleteMovie(Integer id);
 }

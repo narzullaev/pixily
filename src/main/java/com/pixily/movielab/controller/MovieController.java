@@ -2,53 +2,64 @@ package com.pixily.movielab.controller;
 
 import com.pixily.movielab.model.Movie;
 import com.pixily.movielab.services.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 
 @RestController
 public class MovieController {
 
-    @Autowired
-    private MovieService movieService;
+    private final MovieService movieService;
+    private final static Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
 
-    @PostMapping(value = "/create", consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Movie> createMovie(@RequestBody Movie movie) {
-        return movieService.createMovie(movie);
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
     }
 
-    @GetMapping("/{id}")
-    public Mono<ResponseEntity<Movie>> findById(@PathVariable("id") String movie_id) {
-        return movieService.findById(movie_id)
+    @PostMapping("/movies")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Movie> addMovie(@RequestBody Movie movie) {
+        return movieService.addMovie(movie);
+    }
+
+    @GetMapping("/movies/{id}")
+    public Mono<ResponseEntity<Movie>> findById(@PathVariable("id") Integer id) {
+        return movieService.findById(id)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/title/{title}")
+    @GetMapping("/movies/movie/{title}")
     public Flux<Movie> findByTitle(@PathVariable("title") String title) {
         return movieService.findByTitle(title);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/movies")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<Movie> update(@RequestBody Movie movie) {
-        return movieService.update(movie);
+    public Mono<Movie> updateMovie(@RequestBody Movie movie) {
+        return movieService.updateMovie(movie);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/movies")
     public Flux<Movie> findAll() {
-        return movieService.findAll();
+        return movieService.findAllMovies();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/movies/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable(value = "id") String movie_id) {
-        movieService.delete(movie_id).subscribe();
+    public Mono<ResponseEntity<Void>> deleteMovie(@PathVariable(value = "id") int id) {
+        return movieService.deleteMovie(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
 
