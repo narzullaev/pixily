@@ -6,13 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.lang.reflect.Field;
-import java.util.Map;
 
 
 @RestController
@@ -28,6 +24,7 @@ public class MovieController {
     @PostMapping("/movies")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Movie> addMovie(@RequestBody Movie movie) {
+        LOGGER.info("addMovie invoked for -> " + movie);
         return movieService.addMovie(movie);
     }
 
@@ -51,15 +48,15 @@ public class MovieController {
 
     @GetMapping("/movies")
     public Flux<Movie> findAll() {
+        LOGGER.info("getAllMovies invoked");
         return movieService.findAllMovies();
     }
 
     @DeleteMapping("/movies/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<ResponseEntity<Void>> deleteMovie(@PathVariable(value = "id") int id) {
-        return movieService.deleteMovie(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    public Mono<Void> deleteMovie(@PathVariable(value = "id") int id) {
+        LOGGER.info("deleteMovie invoked for movie ID -> " + id);
+        return movieService.deleteMovie(id);
     }
 
 

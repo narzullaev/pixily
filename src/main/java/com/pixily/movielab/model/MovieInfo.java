@@ -7,11 +7,13 @@ import java.util.List;
 @Document
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MovieInfo {
 
     private int releaseYear;
     @NotNull
-    private List<String> genres;
+    private String genre;
     private int duration;
     @NotNull
     private String description;
