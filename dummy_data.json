@@ -1,0 +1,53 @@
+[   {
+        "movie_id": 1001,
+            "title": "Miss Jerry",
+            "info": {
+                "release_year": 1994,
+                "genre":"Romance",
+                "duration": 45,
+                "description": "The adventures of a female reporter in the 1890s.",
+                "rating": 5.9,
+                "votes": 154
+            }
+    },
+
+    {
+        "movie_id": 1002,
+            "title": "Cabiria",
+            "info": {
+                "release_year": 1994,
+                "genre":"Adventure",
+                "duration": 148,
+                "description": "The lives of several people, most of them living in the same apartment building, are intertwined between Christmas and New Year's Eve.",
+                "rating": 7.1,
+                "votes": 3073
+            }
+    },
+
+    {
+        "movie_id": 1003,
+            "title": "X-Men: Apocalisse",
+            "info": {
+                "release_year": 2016,
+                "genre":"Action",
+                "duration": 144,
+                "description": "In the 1980s the X-Men must defeat an ancient all-powerful mutant, En Sabah Nur, who intends to thrive through bringing destruction to the world.",
+                "rating": 6.9,
+                "votes": 384887
+            }
+    },
+
+    {
+        "movie_id": 1004,
+            "title": "Summer Forever",
+            "info": {
+                "release_year": 2015,
+                "genre":"Musical",
+                "duration": 95,
+                "description": "Three best friends make the most of their last summer weekend together before going their separate ways to college.",
+                "rating": 6.7,
+                "votes": 262328
+            }
+    },
+
+]
